@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
-class CardAdapter(private val cards: List<Carta>, private val onCardClickListener: (Carta) -> Unit) :
+class CardAdapter(private var cards: List<Carta>, private val onCardClickListener: (Carta) -> Unit) :
     RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     private val flippedCards: MutableList<Carta> = mutableListOf()
@@ -38,4 +38,15 @@ class CardAdapter(private val cards: List<Carta>, private val onCardClickListene
     override fun getItemCount(): Int {
         return cards.size
     }
+
+    fun setItems(newCards: MutableList<Carta>) {
+        cards = newCards
+        notifyDataSetChanged()
+    }
+
+    fun getCards(): List<Carta> {
+        return cards
+    }
+
+
 }

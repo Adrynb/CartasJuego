@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.os.Handler
 import android.os.Looper
+import android.widget.Button
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
     private lateinit var cardAdapter: CardAdapter
     private val flippedCards: MutableList<Carta> = mutableListOf()
     private lateinit var gameLogic: GameLogic
+    private lateinit var resetButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,12 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
         }
         recyclerView.adapter = cardAdapter
 
+        resetButton = findViewById(R.id.resetButton)
+        resetButton.setOnClickListener{
+            resetGame()
+        }
+
+
         gameLogic = GameLogic(cardAdapter, this)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -41,5 +49,14 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
 
     override fun onGameWin() {
         Toast.makeText(this, "¡Has ganado!", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun resetGame() {
+        cards.shuffle()
+        val filteredCards = cards
+        flippedCards.clear()
+        cardAdapter.setItems(filteredCards)
+        cardAdapter.notifyDataSetChanged()
+        gameLogic.resetGame()
     }
 }

@@ -40,7 +40,20 @@ class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListe
             }
         }
     }
-        interface OnGameWinListener {
+
+    fun resetGame() {
+        for (card in cardAdapter.getCards()) {
+            card.volteada = false
+            card.matchOn = false
+        }
+
+        flippedCards.clear()
+        matchedCards.clear()
+        cards.shuffle()
+        cardAdapter.notifyDataSetChanged()
+    }
+
+    interface OnGameWinListener {
             fun onGameWin()
         }
 
