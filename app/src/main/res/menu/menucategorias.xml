@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_animals"
+            android:title="Animales" />
+        <item
+            android:id="@+id/nav_fruits"
+            android:title="Frutas" />
+        <item
+            android:id = "@+id/nav_transports"
+            android:title="Transportes"/>
 
-    <item
-        android:id="@+id/menuAnimales"
-        android:title="Animales" />
-    <item
-        android:id="@+id/menuComida"
-        android:title="Comida" />
-    <item android:title="Item" />
+    </group>
 </menu>

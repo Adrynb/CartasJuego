@@ -5,6 +5,8 @@ class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListe
 
     private val flippedCards: MutableList<Carta> = mutableListOf()
     private val matchedCards: MutableList<Carta> = mutableListOf()
+    private var intentos : Int = 0
+    private val maxIntentos : Int = 10
 
     fun onCardClick(clickedCard: Carta) {
         if (!clickedCard.volteada && flippedCards.none { it.id + 100 == clickedCard.id }
@@ -30,6 +32,7 @@ class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListe
                 matchedCards.addAll(flippedCards)
             } else {
                 flippedCards.forEach { it.flip() }
+                intentos++
             }
 
             flippedCards.clear()
@@ -38,6 +41,10 @@ class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListe
             if (matchedCards.size == cardAdapter.itemCount) {
                 onGameWinListener.onGameWin()
             }
+            if(intentos == maxIntentos){
+                onGameWinListener.onGameLoose()
+            }
+
         }
     }
 
@@ -47,6 +54,7 @@ class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListe
             card.matchOn = false
         }
 
+        intentos = 0
         flippedCards.clear()
         matchedCards.clear()
         cards.shuffle()
@@ -55,6 +63,7 @@ class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListe
 
     interface OnGameWinListener {
             fun onGameWin()
+            fun onGameLoose()
         }
 
 }
