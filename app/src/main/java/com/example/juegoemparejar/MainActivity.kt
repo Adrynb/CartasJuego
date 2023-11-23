@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import android.widget.Toolbar
+import androidx.constraintlayout.motion.widget.DesignTool
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -22,7 +25,9 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
     private lateinit var resetButton: Button
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
-    private  var barajaCartas: JuegoViewModel = JuegoViewModel()
+    private  var barajaCartas: NavBaraja = NavBaraja()
+    private lateinit var toolbar: Toolbar
+    private lateinit var starButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +43,11 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
         recyclerView = findViewById(R.id.contenedor)
         recyclerView.layoutManager = GridLayoutManager(this, 4)
 
-        drawerLayout.openDrawer(GravityCompat.START)
+        starButton = findViewById(R.id.starrButton)
+        starButton.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
 
         cardAdapter = CardAdapter(filteredCards) { clickedCard ->
             gameLogic.onCardClick(clickedCard)
@@ -49,6 +58,9 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
         resetButton.setOnClickListener {
             resetGame()
         }
+
+
+
 
 
         navigationView.setNavigationItemSelectedListener { menuItem ->

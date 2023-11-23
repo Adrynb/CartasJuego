@@ -1,9 +1,6 @@
 package com.example.juegoemparejar
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-class JuegoViewModel {
+class NavBaraja {
 
     private val cards = mutableListOf(
         Carta(2, R.drawable.bear_svgrepo_com),
