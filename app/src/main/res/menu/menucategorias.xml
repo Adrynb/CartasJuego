@@ -3,13 +3,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_animals"
+            android:icon="@drawable/dog_face_svgrepo_com"
             android:title="Animales" />
         <item
             android:id="@+id/nav_fruits"
+            android:icon="@drawable/cerejas_cherries_cherry_svgrepo_com"
             android:title="Frutas" />
         <item
-            android:id = "@+id/nav_transports"
-            android:title="Transportes"/>
+            android:id="@+id/nav_transports"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="Transportes" />
 
     </group>
 </menu>

@@ -5,13 +5,13 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.os.Handler
-import android.os.Looper
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+
 
 class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
 
@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
     private lateinit var resetButton: Button
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    private  var barajaCartas: JuegoViewModel = JuegoViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +31,9 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
 
-        cards.shuffle()
+        com.example.juegoemparejar.cards.shuffle()
 
-        val filteredCards = cards
+        val filteredCards = com.example.juegoemparejar.cards
 
         recyclerView = findViewById(R.id.contenedor)
         recyclerView.layoutManager = GridLayoutManager(this, 4)
@@ -42,32 +43,41 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
         cardAdapter = CardAdapter(filteredCards) { clickedCard ->
             gameLogic.onCardClick(clickedCard)
         }
-        recyclerView.adapter = cardAdapter
+        recyclerView.adapter =cardAdapter
 
         resetButton = findViewById(R.id.resetButton)
-        resetButton.setOnClickListener{
+        resetButton.setOnClickListener {
             resetGame()
         }
 
+
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_animals -> {
 
+                R.id.nav_animals -> {
+                    barajaCartas.changeCardList("Animals")
+                    updateRecyclerView()
+                    drawerLayout.closeDrawer(GravityCompat.START)
                     true
+
                 }
                 R.id.nav_fruits -> {
-
+                    barajaCartas.changeCardList("Fruits")
+                    updateRecyclerView()
+                    drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-
                 R.id.nav_transports -> {
-
+                    barajaCartas.changeCardList("OtherType")
+                    updateRecyclerView()
+                    drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
 
                 else -> false
             }
         }
+
         gameLogic = GameLogic(cardAdapter, this)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -86,11 +96,21 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
     }
 
     private fun resetGame() {
-        cards.shuffle()
-        val filteredCards = cards
+        com.example.juegoemparejar.cards.shuffle()
+        val filteredCards = com.example.juegoemparejar.cards
+        cardAdapter.getCards().forEach{
+            it.volteada=true
+        }
+        cardAdapter.notifyDataSetChanged()
+        gameLogic.resetGame()
+    }
+    private fun updateRecyclerView() {
+        val filteredCards = barajaCartas.currentCardList
         flippedCards.clear()
         cardAdapter.setItems(filteredCards)
         cardAdapter.notifyDataSetChanged()
         gameLogic.resetGame()
     }
+
+
 }

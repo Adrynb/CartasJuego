@@ -57,7 +57,7 @@ class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListe
         intentos = 0
         flippedCards.clear()
         matchedCards.clear()
-        cards.shuffle()
+        com.example.juegoemparejar.cards.shuffle()
         cardAdapter.notifyDataSetChanged()
     }
 
