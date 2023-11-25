@@ -1,10 +1,12 @@
 package com.example.juegoemparejar
+import android.widget.TextView
 import kotlinx.coroutines.*
 
 class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListener: OnGameWinListener) {
 
     private val flippedCards: MutableList<Carta> = mutableListOf()
     private val matchedCards: MutableList<Carta> = mutableListOf()
+    private lateinit var textContador : TextView
     private var intentos : Int = 0
     private val maxIntentos : Int = 10
 
@@ -24,6 +26,8 @@ class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListe
             }
         }
     }
+
+
 
     private suspend fun checkForMatches() {
         withContext(Dispatchers.Main) {
@@ -59,6 +63,17 @@ class GameLogic(private val cardAdapter: CardAdapter, private val onGameWinListe
         matchedCards.clear()
         com.example.juegoemparejar.cards.shuffle()
         cardAdapter.notifyDataSetChanged()
+
+    }
+
+    fun getMaxIntentos() : Int{
+        return maxIntentos
+    }
+    fun setTextContador (textView : TextView){
+        textContador = textView
+    }
+    fun updateContador() {
+        textContador?.text = (maxIntentos - intentos).toString()
     }
 
     interface OnGameWinListener {

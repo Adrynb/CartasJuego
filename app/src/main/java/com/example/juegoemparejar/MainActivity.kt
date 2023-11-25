@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.constraintlayout.motion.widget.DesignTool
@@ -28,10 +29,14 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
     private  var barajaCartas: NavBaraja = NavBaraja()
     private lateinit var toolbar: Toolbar
     private lateinit var starButton: Button
+    private lateinit var textContador: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        textContador = findViewById(R.id.textVidas)
+
+
 
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.navigationView)
@@ -51,17 +56,19 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
 
         cardAdapter = CardAdapter(filteredCards) { clickedCard ->
             gameLogic.onCardClick(clickedCard)
+            gameLogic.updateContador()
         }
         recyclerView.adapter =cardAdapter
+
+        gameLogic = GameLogic(cardAdapter, this)
+        gameLogic.setTextContador(textContador)
+
+
 
         resetButton = findViewById(R.id.resetButton)
         resetButton.setOnClickListener {
             resetGame()
         }
-
-
-
-
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -90,7 +97,7 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
             }
         }
 
-        gameLogic = GameLogic(cardAdapter, this)
+
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menucategorias, menu)
@@ -115,14 +122,17 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
         }
         cardAdapter.notifyDataSetChanged()
         gameLogic.resetGame()
+        gameLogic.updateContador()
+
     }
     private fun updateRecyclerView() {
         val filteredCards = barajaCartas.currentCardList
         flippedCards.clear()
         cardAdapter.setItems(filteredCards)
         cardAdapter.notifyDataSetChanged()
-        gameLogic.resetGame()
+        textContador.text = gameLogic.getMaxIntentos().toString()
     }
+
 
 
 }
