@@ -117,20 +117,20 @@ class MainActivity : AppCompatActivity(), GameLogic.OnGameWinListener {
     private fun resetGame() {
         com.example.juegoemparejar.cards.shuffle()
         val filteredCards = com.example.juegoemparejar.cards
-        cardAdapter.getCards().forEach{
-            it.volteada=true
+        cardAdapter.getCards().forEach {
+            it.volteada = true // Voltea todas las cartas en el adaptador para que estén boca arriba.
         }
         cardAdapter.notifyDataSetChanged()
-        gameLogic.resetGame()
-        gameLogic.updateContador()
-
+        gameLogic.resetGame() // Reinicia la lógica del juego, limpiando las cartas volteadas y emparejadas, y barajando el mazo.
+        gameLogic.updateContador() // Actualiza el contador
     }
+
     private fun updateRecyclerView() {
         val filteredCards = barajaCartas.currentCardList
         flippedCards.clear()
-        cardAdapter.setItems(filteredCards)
-        cardAdapter.notifyDataSetChanged()
-        textContador.text = gameLogic.getMaxIntentos().toString()
+        cardAdapter.setItems(filteredCards) // Actualiza el adaptador con las cartas filtradas.
+        cardAdapter.notifyDataSetChanged() // Notifica al adaptador que ha cambiado
+        textContador.text = gameLogic.getMaxIntentos().toString() //Actualiza el contador igualando el texto con el numero de intentos obtenidos en la clase de gameLogic
     }
 
 

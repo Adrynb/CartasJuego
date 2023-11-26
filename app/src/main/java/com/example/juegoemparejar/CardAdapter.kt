@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 class CardAdapter(private var cards: List<Carta>, private val onCardClickListener: (Carta) -> Unit) :
     RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
-    private val flippedCards: MutableList<Carta> = mutableListOf()
+    //Listas de cartas volteadas en el juego
+    private val cartasVolteadas: MutableList<Carta> = mutableListOf()
 
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cardImageView: ImageView = itemView.findViewById(R.id.imageView)
+        val cardImageView: ImageView = itemView.findViewById(R.id.imageView) //Enseña la carta en el juego.
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -24,11 +25,12 @@ class CardAdapter(private var cards: List<Carta>, private val onCardClickListene
         val card = cards[position]
 
         if(card.matchOn){
-            holder.cardImageView.setImageResource(card.imageId)
+            holder.cardImageView.setImageResource(card.imageId) //Si la carta ha hecho match, se enseñan las imagen
         }
         else{
-            holder.cardImageView.setImageResource(if (card.volteada) card.imageId else R.drawable.poker_svgrepo_com)
+            holder.cardImageView.setImageResource(if (card.volteada) card.imageId else R.drawable.poker_svgrepo_com) //Si no, vuelve a su estado original.
         }
+
 
         holder.itemView.setOnClickListener {
             onCardClickListener.invoke(card)
